@@ -281,7 +281,7 @@ lpm_main_loop(__attribute__((unused)) void *dummy)
 			
 			//This variable will discriminate whether this thread will sleep for a short period Ts or a long period Tl
 			got_lock = false;
-			//Processing starts is we get the thrlock, otherwise we go directly to the sleep phase
+			//Processing starts if we get the trylock, otherwise we go directly to the sleep phase
 			if (!trylock(&lock))
 				goto sleep; 
 			got_lock = true;
@@ -307,7 +307,7 @@ start:
 			//num_packets is the total number of packets retrieved in this busy period
 			num_packets += nb_rx;
 			
-			//If we reah this part of code, it means there are still packets to be processed on the RX queue
+			//If we reach this part of code, it means there are still packets to be processed in the RX queue
 			avail = 1;
 #if defined RTE_ARCH_X86 || defined RTE_MACHINE_CPUFLAG_NEON \
 				|| defined RTE_ARCH_PPC_64
@@ -327,7 +327,7 @@ start:
 			if (likely(!first_time)) {
 				//If thread reaches this point, it means all queues are empty. We can go to sleep after adaptely choose our next timer
 					//time1 is the last time when the lock was released.
-					//time2 is set by this thread as soon as it gets granted the lock.
+					//time2 is set by this thread as soon as it gets the lock granted.
 					//These values are expressed in clock cycles and thus must be divided for your CPU nominal frequency. Therefore the vacation time experimented by Metronome is:
 					vacation_time = (time2 - time1) / CPU_FREQ;
 					//In the same way, we calculate the busy time (NOW - time2)
@@ -338,20 +338,21 @@ start:
 					lambda = ALPHA * lambda + (1-ALPHA) * lambda_local;
 					//the local rho parameter is updated as described in Section 4 of the paper
 					rho_local = ((double) busy_time) / ((double) busy_time + vacation_time);
-					//Global rho parameter is also update by an exponential moving average.
+					//Global rho parameter is also updated by an exponential moving average.
 					rho = ALPHA * rho + (1 - ALPHA) * rho_local;
 					//The new timeout is set as the formula in Section 4 shows
 					timeout_short = (unsigned long) num_cores * vacation_period * (1 - rho) / (1 - pow(rho, (double) num_cores));
-					
+					//timeout_local is the variable keeping track of how much time this thread is going to sleep
 					timeout_local = timeout_short;
 			}
 			if (unlikely(first_packet)){
 				first_packet = false;
 			}
+			//before releasing the lock, we update time1 as the moment when the vacation period starts
 			time1 = __rdtscp(&junk);
 			lock = 0;
 
-			//TX queue drain
+			//final TX queue drain (no lock is needed for TX queues)
 			cur_tsc = rte_rdtsc();
 			diff_tsc = cur_tsc - prev_tsc;
 			if (likely(diff_tsc > drain_tsc)) {
@@ -367,7 +368,7 @@ start:
 
 				prev_tsc = cur_tsc;
 			}
-			//We use this variable not to calculate vacation and busy periods durng the first iteration, when some variables have not been set yet
+			//We use this variable in order not to calculate vacation and busy periods during the first iteration, when some variables have not been set yet
 			first_time = false;
 sleep:
 			if (!got_lock) {
@@ -375,6 +376,7 @@ sleep:
 				//TIMEOUT_LONG is specified in l3fwd.h
 				timeout_local = TIMEOUT_LONG;
 			}
+			//custom_timer_mode is the -m command line parameter (1 for hr_sleep(), 0 for nanosleep())
 			if (custom_timer_mode == 0) {
 				timer.tv_nsec = (long) timeout_local;
 				nanosleep(&timer, NULL);

@@ -34,9 +34,11 @@ $ make install
 After DPDK is successfully compiled, please insert the *igb_uio* driver doing
 ```(bash)
 $ sudo modprobe uio
+```
+Then from your root DPDK directory do:
+```
 $ sudo insmod build/kmod/igb_uio.ko
 ```
-once switched to your DPDK ```build/``` directory.
 ## Moongen
 We used Moongen to generate high traffic of packets. Moongen can be downloaded [here](https://github.com/emmericp/MoonGen). Please follow Its README to install it on your server.
 Using Moongen allows you also to reproduce the experiments used by the **software-switches** repo for evaluation.

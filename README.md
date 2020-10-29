@@ -8,15 +8,32 @@ The repository is organized with two main directories:
 * **hr_sleep:** contains the kernel module to load the hr_sleep patch and a basic test to verify its correct working and the performance gain compared to Linux' nanosleep().
 *  **tests:** contains the tests explained in Section 5.5 of the paper. We encourage reviewers to use the **l3fwd** experiment as it is the one used for evaluation in Section 5. 
 # Prerequisites
+The hr_sleep module was tested on Linux kernel 5.4, and kernel version are expected to work too. Please note that this is currently
+*not working* for Linux 5.7 or newer.
 ## Isolate CPUs
 Our tests have been executed with Metronome running on isolated CPUs. Although this step is not strictly necessary, we recommend it in order to obtain results which are more reproducible and also closer to the evaluation. This [video](https://www.youtube.com/watch?v=FGVryuQRkOg) shows how to isolate CPUs in Ubuntu. If you wish to isolate your CPUs, please execute this step first since it will imply a machine reboot.
 ## DPDK 19.11
 We used the DPDK 19.11.1 LTS stable release which can be downloaded [here](http://static.dpdk.org/rel/dpdk-19.11.1.tar.gz). Different releases of the DPDK 19.11 LTS release should work as well.
-Once extracted, DPDK can be compiled following [this guide](https://doc.dpdk.org/guides/linux_gsg/build_dpdk.html). 
+
+Once downloaded, uncompress the archive and move to the uncompressed DPDK directory:
+```(bash)
+$ tar xJf dpdk-19.11.1.tar.xz
+$ cd dpdk-19.11.1
+```
+Before compiling DPDK install the required dependencies (for Ubuntu/Debian systems, for other systems please refer to the official guide [here](https://doc.dpdk.org/guides/linux_gsg/sys_reqs.html#compilation-of-the-dpdk)):
+```(bash)
+$ sudo apt-get update
+$ sudo apt-get install git build-essential linux-headers-`uname -r`
+```
+Now compile with:
+```(bash)
+$ make config T=x86_64-default-linuxapp-gcc
+$ make
+```
 After DPDK is successfully compiled, please insert the *igb_uio* driver doing
 ```(bash)
 $ sudo modprobe uio
-$ sudo insmod kmod/igb_uio.ko
+$ sudo insmod build/kmod/igb_uio.ko
 ```
 once switched to your DPDK ```build/``` directory.
 ## Moongen

@@ -8,6 +8,7 @@ $ sudo insmod the_usctm.ko
 Then use the ```dmesg``` command to check that the module was mounted correctly and the new syscall number. Usually, the kernel will use entry 134 for inserting the hr_sleep() system call. If this does not happen, please keep in mind the syscall number.
 
 We've tested the module insertion on Linux kernel 5.4. Older version are expected to work too.
+This version does not work for kernel 5.7 and later.
 ## Run the example
 You can switch to the ```user/``` directory and try an example.
 First, update the ```float scale``` parameter inside the ```nanosleep-user.c``` source file with your CPU nominal frequency (in our case, it was 2.1GHz).

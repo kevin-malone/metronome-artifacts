@@ -9,7 +9,7 @@ The repository is organized with two main directories:
 *  **tests:** contains the tests explained in Section 5.5 of the paper. We encourage reviewers to use the **l3fwd** experiment as it is the one used for evaluation in Section 5. 
 # Prerequisites
 The hr_sleep module was tested on Linux kernel 5.4, and older kernel version are expected to work too. Please note that this is currently
-*not working* for Linux 5.7 or newer.
+*not working* for Linux kernel 5.7 or newer.
 ## Isolate CPUs
 Our tests have been executed with Metronome running on isolated CPUs. Although this step is not strictly necessary, we recommend it in order to obtain results which are more reproducible and also closer to the evaluation. This [video](https://www.youtube.com/watch?v=FGVryuQRkOg) shows how to isolate CPUs in Ubuntu. If you wish to isolate your CPUs, please execute this step first since it will imply a machine reboot.
 ## DPDK 19.11
@@ -52,6 +52,7 @@ $ sudo apt-get install -y build-essential cmake linux-headers-`uname -r` pciutil
 ```
 Finally build Moongen with:
 ```(bash)
+$ cd MoonGen
 $ ./build.sh
 ```
 Please note that the setup done by MoonGen may cause loss of connectivity, as MoonGen tries to bind to the DPDK driver all of the inactive interfaces.

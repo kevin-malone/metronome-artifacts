@@ -40,7 +40,20 @@ Then from your root DPDK directory do:
 $ sudo insmod build/kmod/igb_uio.ko
 ```
 ## Moongen
-We used Moongen to generate high traffic of packets. Moongen can be downloaded [here](https://github.com/emmericp/MoonGen). Please follow Its README to install it on your server.
+We used Moongen to generate high traffic of packets.
+
+Clone the Moongen repository with:
+```(bash)
+$ git clone https://github.com/emmericp/MoonGen.git
+```
+Then install the required dependencies:
+```(bash)
+$ sudo apt-get install -y build-essential cmake linux-headers-`uname -r` pciutils libnuma-dev
+```
+Finally build Moongen with:
+```(bash)
+./build.sh
+```
 Using Moongen allows you also to reproduce the experiments used by the **software-switches** repo for evaluation.
 ## software-switches
 You can clone the software-switches repo [here](https://github.com/ztz1989/software-switches/tree/artifacts). For our purposes, only the ```moongen/``` directory is needed.

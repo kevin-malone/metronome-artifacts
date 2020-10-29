@@ -52,7 +52,7 @@ $ sudo apt-get install -y build-essential cmake linux-headers-`uname -r` pciutil
 ```
 Finally build Moongen with:
 ```(bash)
-./build.sh
+$ ./build.sh
 ```
 Using Moongen allows you also to reproduce the experiments used by the **software-switches** repo for evaluation.
 ## software-switches

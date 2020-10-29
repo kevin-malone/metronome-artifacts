@@ -57,8 +57,10 @@ $ ./build.sh
 ```
 Please note that the setup done by MoonGen may cause loss of connectivity, as MoonGen tries to bind to the DPDK driver all of the inactive interfaces.
 Using Moongen allows you also to reproduce the experiments used by the **software-switches** repo for evaluation.
+For our tests, we used commit ```525d991``` of the ```master``` branch.
 ## software-switches
 You can clone the software-switches repo [here](https://github.com/ztz1989/software-switches/tree/artifacts). For our purposes, only the ```moongen/``` directory is needed. There's no need to compile or setup anything.
+We used commit ```5af2439``` of the ```artifacts``` branch.
 # Testbed setup
 ## Loading the hr_sleep module
 Switch to the **hr_sleep** directory and follow the instructions in the directory's README file.

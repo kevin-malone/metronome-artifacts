@@ -29,6 +29,7 @@ Now compile with:
 ```(bash)
 $ make config T=x86_64-default-linuxapp-gcc
 $ make
+$ make install
 ```
 After DPDK is successfully compiled, please insert the *igb_uio* driver doing
 ```(bash)

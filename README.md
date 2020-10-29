@@ -8,7 +8,7 @@ The repository is organized with two main directories:
 * **hr_sleep:** contains the kernel module to load the hr_sleep patch and a basic test to verify its correct working and the performance gain compared to Linux' nanosleep().
 *  **tests:** contains the tests explained in Section 5.5 of the paper. We encourage reviewers to use the **l3fwd** experiment as it is the one used for evaluation in Section 5. 
 # Prerequisites
-The hr_sleep module was tested on Linux kernel 5.4, and kernel version are expected to work too. Please note that this is currently
+The hr_sleep module was tested on Linux kernel 5.4, and older kernel version are expected to work too. Please note that this is currently
 *not working* for Linux 5.7 or newer.
 ## Isolate CPUs
 Our tests have been executed with Metronome running on isolated CPUs. Although this step is not strictly necessary, we recommend it in order to obtain results which are more reproducible and also closer to the evaluation. This [video](https://www.youtube.com/watch?v=FGVryuQRkOg) shows how to isolate CPUs in Ubuntu. If you wish to isolate your CPUs, please execute this step first since it will imply a machine reboot.
@@ -54,9 +54,10 @@ Finally build Moongen with:
 ```(bash)
 $ ./build.sh
 ```
+Please note that the setup done by MoonGen may cause loss of connectivity, as MoonGen tries to bind to the DPDK driver all of the inactive interfaces.
 Using Moongen allows you also to reproduce the experiments used by the **software-switches** repo for evaluation.
 ## software-switches
-You can clone the software-switches repo [here](https://github.com/ztz1989/software-switches/tree/artifacts). For our purposes, only the ```moongen/``` directory is needed.
+You can clone the software-switches repo [here](https://github.com/ztz1989/software-switches/tree/artifacts). For our purposes, only the ```moongen/``` directory is needed. There's no need to compile or setup anything.
 # Testbed setup
 ## Loading the hr_sleep module
 Switch to the **hr_sleep** directory and follow the instructions in the directory's README file.

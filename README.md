@@ -97,7 +97,7 @@ $ ./usertools/dpdk-devbind.py --bind=igb_uio 04:00.1
 # Running experiments
 We used the experiments inside the ```software-switches/moongen``` repo, in particular ```unidirectional-test.sh``` for throughput tests and ```latency-test.sh``` for latency measurements. 
 
-These test must be started only after the Metronome ```l3fwd``` is running.
+These test must be started only after the Metronome ```l3fwd``` example is running. Please refer to the README in the ```tests/l3fwd``` directory in order to make Metronome run correctly.
 
 Before starting them, please modify these .sh files in order to specify in the ```MOONGEN_DIR``` parameter your Moongen installation path. Please also modify your ```dpdk-conf.lua``` script in order to specify the cores where to run Moongen, the interfaces to be used and the memory allocation.
 

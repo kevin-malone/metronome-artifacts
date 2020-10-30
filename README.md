@@ -10,6 +10,8 @@ The repository is organized with two main directories:
 # Prerequisites
 The hr_sleep module was tested on Linux kernel 5.4, and older kernel version are expected to work too. Please note that this is currently
 *not working* for Linux kernel 5.7 or newer.
+
+This guide is intended for Intel x86 CPUs only.
 ## Isolate CPUs
 Our tests have been executed with Metronome running on isolated CPUs. Although this step is not strictly necessary, we recommend it in order to obtain results which are more reproducible and also closer to the evaluation. This [video](https://www.youtube.com/watch?v=FGVryuQRkOg) shows how to isolate CPUs in Ubuntu. If you wish to isolate your CPUs, please execute this step first since it will imply a machine reboot.
 ## DPDK 19.11

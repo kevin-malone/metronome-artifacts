@@ -95,7 +95,11 @@ $ ./usertools/dpdk-devbind.py --unbind 04:00.1
 $ ./usertools/dpdk-devbind.py --bind=igb_uio 04:00.1
 ```
 # Running experiments
-We used the experiments inside the ```software-switches/moongen``` repo, in particular ```unidirectional-test.sh``` for throughput tests and ```latency-test.sh``` for latency measurements. Before starting them, please modify these .sh files in order to specify in the ```MOONGEN_DIR``` parameter your Moongen installation path. Please also modify your ```dpdk-conf.lua``` script in order to specify the cores where to run Moongen, the interfaces to be used and the memory allocation.
+We used the experiments inside the ```software-switches/moongen``` repo, in particular ```unidirectional-test.sh``` for throughput tests and ```latency-test.sh``` for latency measurements. 
+
+These test must be started only after the Metronome ```l3fwd``` is running.
+
+Before starting them, please modify these .sh files in order to specify in the ```MOONGEN_DIR``` parameter your Moongen installation path. Please also modify your ```dpdk-conf.lua``` script in order to specify the cores where to run Moongen, the interfaces to be used and the memory allocation.
 
 **N.B.** please specify your interfaces in the same order you see them through the ```./usertools/dpdk-devbind.py --status``` command (that is, ascending order). The first interface you specify will likely be used for sending, and the second one for receiving.
 
